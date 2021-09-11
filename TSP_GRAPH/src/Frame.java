@@ -2,11 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Frame extends JFrame implements ActionListener {
     WhiteBoard whiteBoard;
+    JLabel label = null;
 
     Frame(String name) {
         super(name);
@@ -32,10 +36,13 @@ public class Frame extends JFrame implements ActionListener {
         add(buttonArea,BorderLayout.SOUTH);
         JButton openFileButton = new JButton("Open File");
         JButton drawGraphButton = new JButton("Draw Graph");
+        this.label = new JLabel("Loading");
+        this.label.setVisible(false);
         openFileButton.setPreferredSize(new Dimension(120, 50));
         drawGraphButton.setPreferredSize(new Dimension(120, 50));
         openFileButton.addActionListener(this);
         drawGraphButton.addActionListener(this);
+        buttonArea.add(label);
         buttonArea.add(openFileButton);
         buttonArea.add(drawGraphButton);
     }
@@ -43,19 +50,44 @@ public class Frame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
             if(((JButton)e.getSource()).getText().equals("Open File")) {
-                FileOpener fileOpener = new FileOpener();
-                try {
-                   List<double[]> cityCoordinates = fileOpener.openFile();
-                   if(!cityCoordinates.isEmpty()) {
-                       whiteBoard.cityCoordinates = cityCoordinates;
-                       whiteBoard.repaint();
-                       System.out.println("file parsed: "+ cityCoordinates.size());
-                   }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                drawCities();
             } else {
-
+                drawGraph();
             }
     }
+
+    private void drawGraph() {
+        TSPAlgorithm tspAlgorithm = new TSPAlgorithm(whiteBoard.cityCoordinates);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+        List<City> routes = tspAlgorithm.findRoute();
+        if(!routes.isEmpty()) {
+            whiteBoard.routes = routes;
+            whiteBoard.repaint();
+        }
+        now = LocalDateTime.now();
+        System.out.println("route found:" + dtf.format(now));
+    }
+
+    private void drawCities() {
+        whiteBoard.cityCoordinates = null;
+        whiteBoard.routes = null;
+        whiteBoard.repaint();
+        FileManager fileManager = new FileManager();
+        try {
+            File file = fileManager.openFile();
+            this.label.setVisible(true);
+            List<double[]> cityCoordinates = fileManager.fileOperations(file);
+            if(!cityCoordinates.isEmpty()) {
+                whiteBoard.cityCoordinates = cityCoordinates;
+                whiteBoard.repaint();
+                System.out.println("file parsed: "+ cityCoordinates.size());
+                this.label.setVisible(false);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
+
