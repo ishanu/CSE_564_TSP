@@ -15,14 +15,18 @@ public class WhiteBoard extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+       /* Graphics2D g2d = (Graphics2D) g;
+        int w2 = getWidth() / 2;
+        int h2 = getHeight() / 2;
+        g2d.rotate(-Math.PI / 2, w2, h2);
+*/
         super.paintComponent(g);
         if (cityCoordinates != null) {
             scaleCoordinates();
-            cityCoordinates.forEach(n -> {
-                g.drawOval((int) n[1], (int) n[2], 3, 3);
 
+            cityCoordinates.forEach(n -> {
+                g.drawOval((int) n[1],(int) n[2], 3, 3);
             });
-            // cityCoordinates = null;
         }
         if (routes != null && !routes.isEmpty()) {
             drawRoutes(g);
@@ -73,4 +77,5 @@ public class WhiteBoard extends JPanel {
                 maxYCoordinate = point[2];
         }
     }
+
 }

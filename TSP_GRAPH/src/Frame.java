@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class Frame extends JFrame implements ActionListener {
     WhiteBoard whiteBoard;
@@ -20,7 +22,7 @@ public class Frame extends JFrame implements ActionListener {
         whiteBoard = new WhiteBoard();
         add(whiteBoard, BorderLayout.CENTER);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize((int)screenSize.getWidth()-((int)(0.1*screenSize.getWidth())), (int)screenSize.getHeight()-((int)(0.1*screenSize.getHeight())));
+        this.setSize((int)screenSize.getHeight()-((int)(0.1*screenSize.getHeight())), (int)screenSize.getHeight()-((int)(0.1*screenSize.getHeight())));
         int x = (int) ((screenSize.getWidth() - this.getWidth()) / 2);
         int y = (int) ((screenSize.getHeight() - this.getHeight()) / 2);
         this.setLocation(x, y);
@@ -58,16 +60,11 @@ public class Frame extends JFrame implements ActionListener {
 
     private void drawGraph() {
         TSPAlgorithm tspAlgorithm = new TSPAlgorithm(whiteBoard.cityCoordinates);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
         List<City> routes = tspAlgorithm.findRoute();
         if(!routes.isEmpty()) {
             whiteBoard.routes = routes;
             whiteBoard.repaint();
         }
-        now = LocalDateTime.now();
-        System.out.println("route found:" + dtf.format(now));
     }
 
     private void drawCities() {
@@ -77,6 +74,8 @@ public class Frame extends JFrame implements ActionListener {
         FileManager fileManager = new FileManager();
         try {
             File file = fileManager.openFile();
+            if(file == null)
+                return;
             this.label.setVisible(true);
             List<double[]> cityCoordinates = fileManager.fileOperations(file);
             if(!cityCoordinates.isEmpty()) {
@@ -89,5 +88,6 @@ public class Frame extends JFrame implements ActionListener {
             ex.printStackTrace();
         }
     }
+
 }
 

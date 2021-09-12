@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class TSPRoute {
@@ -13,8 +11,6 @@ public class TSPRoute {
         this.cities.addAll(route.cities);
     }
     public List<City> getCities() {return cities;}
-
-    public String toString() { return Arrays.toString(cities.toArray());}
 
     public double getTotalDistance() {
         int citiesSize = this.cities.size();
