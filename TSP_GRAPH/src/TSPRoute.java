@@ -1,16 +1,8 @@
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class TSPRoute {
-    private List<City> cities = new ArrayList<>();
-
-    public TSPRoute(List<City> cities) {
-        this.cities.addAll(cities);
-    }
-    public TSPRoute(TSPRoute route) {
-        this.cities.addAll(route.cities);
-    }
-    public List<City> getCities() {return cities;}
+    public List<City> cities;
 
     public double getTotalDistance() {
         int citiesSize = this.cities.size();

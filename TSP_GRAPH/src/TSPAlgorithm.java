@@ -12,10 +12,12 @@ public class TSPAlgorithm {
         cities.forEach(n->{
             cityList.add(new City(n[0]+"",n[1],n[2]));
         });
-        tspRoute = new TSPRoute(cityList);
+        tspRoute = new TSPRoute();
+        tspRoute.cities = new ArrayList<>();
+        tspRoute.cities.addAll(cityList);
     }
     public List<City> findRoute() {
-        TSPRoute shortestRoute = new TSPRoute(tspRoute);
+        TSPRoute shortestRoute = createTspRoute(tspRoute);
         TSPRoute adjacentRoute;
         int initialTemperature=999;
         int breakEven=0;
@@ -23,13 +25,24 @@ public class TSPAlgorithm {
             if(++breakEven == COOLING_PERIOD) {
                 break;
             }
-            adjacentRoute=obtainAdjacentRoute(new TSPRoute(tspRoute));
-            if(tspRoute.getTotalDistance()<shortestRoute.getTotalDistance()) shortestRoute=new TSPRoute(tspRoute);
-            if (acceptRoute(tspRoute.getTotalDistance(), adjacentRoute.getTotalDistance(),initialTemperature)) tspRoute
-                    = new TSPRoute(adjacentRoute);
+            TSPRoute route = createTspRoute(tspRoute);
+            adjacentRoute=obtainAdjacentRoute(route);
+            if(tspRoute.getTotalDistance()<shortestRoute.getTotalDistance()) {
+                shortestRoute=createTspRoute(tspRoute);
+            }
+            if (acceptRoute(tspRoute.getTotalDistance(), adjacentRoute.getTotalDistance(),initialTemperature)) {
+                tspRoute = createTspRoute(adjacentRoute);
+            }
             initialTemperature*=1-COOLING_RATE;
         }
-        return shortestRoute.getCities();
+        return shortestRoute.cities;
+    }
+
+    private TSPRoute createTspRoute(TSPRoute tspRoute) {
+        TSPRoute route = new TSPRoute();
+        route.cities = new ArrayList<>();
+        route.cities.addAll(tspRoute.cities);
+        return route;
     }
 
     private boolean acceptRoute(double currentDistance,double adjacentDistance,double temperature) {
@@ -44,13 +57,13 @@ public class TSPAlgorithm {
     private TSPRoute obtainAdjacentRoute(TSPRoute route) {
         int x1=0,x2=0;
         while(x1==x2) {
-            x1=(int) (route.getCities().size()*Math.random());
-            x2=(int) (route.getCities().size()*Math.random());
+            x1=(int) (route.cities.size()*Math.random());
+            x2=(int) (route.cities.size()*Math.random());
         }
-        City city1 = route.getCities().get(x1);
-        City city2 = route.getCities().get(x2);
-        route.getCities().set(x2, city1);
-        route.getCities().set(x1,city2);
+        City city1 = route.cities.get(x1);
+        City city2 = route.cities.get(x2);
+        route.cities.set(x2, city1);
+        route.cities.set(x1,city2);
         return route;
     }
 

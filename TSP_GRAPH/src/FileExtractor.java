@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FileManager {
-
+public class FileExtractor {
 
     public File openFile() throws IOException {
         JFileChooser jFileChooser = new JFileChooser();
@@ -51,7 +50,7 @@ public class FileManager {
         }
     }
 
-    private List<double[]> extractTspData(String fileContent) {
+    public List<double[]> extractTspData(String fileContent) {
         List<double[]> cityCoordinates = new ArrayList<>();
         double[] cityLocation = new double[3];
         int columnTracker = 0;
@@ -77,8 +76,7 @@ public class FileManager {
         return cityCoordinates;
     }
 
-
-    private List<double[]> extractAtspData(File file) throws IOException {
+    public List<double[]> extractAtspData(File file) throws IOException {
         String text = "";
         int lineNumber;
         BufferedReader readBuffer = new BufferedReader(new FileReader(file.getAbsolutePath()));
@@ -114,7 +112,6 @@ public class FileManager {
     private List<double[]> getAtspCoordinates(int[][] distanceMatrix, int numColumns,int maxValue) {
         List<double[]> cityCoordinates = new ArrayList<>();
         double[] cityLocation = new double[3];
-       // String[] totalCities=new String[numColumns];
         Random rand = new Random();
         int upperBound=numColumns-1;
         int k=rand.nextInt(upperBound);
