@@ -5,6 +5,7 @@ import java.util.List;
 public class WhiteBoard extends JPanel {
 
     public List<double[]> cityCoordinates;
+    public List<City> routes;
     private double maxXCoordinate, maxYCoordinate, minXCoordinate, minYCoordinate;
     private final int BUFFER_SPACE = 10;
 
@@ -12,16 +13,44 @@ public class WhiteBoard extends JPanel {
         super();
     }
 
-    public void paintComponent(Graphics g){
+    @Override
+    public void paintComponent(Graphics g) {
+       /* Graphics2D g2d = (Graphics2D) g;
+        int w2 = getWidth() / 2;
+        int h2 = getHeight() / 2;
+        g2d.rotate(-Math.PI / 2, w2, h2);
+*/
         super.paintComponent(g);
-        if(cityCoordinates != null) {
+        if (cityCoordinates != null) {
             scaleCoordinates();
-            cityCoordinates.forEach(n-> {
-                g.drawOval((int)n[1],(int)n[2], 3, 3);
 
+            cityCoordinates.forEach(n -> {
+                g.drawOval((int) n[1],(int) n[2], 3, 3);
             });
-           // cityCoordinates = null;
         }
+        if (routes != null && !routes.isEmpty()) {
+            drawRoutes(g);
+        }
+    }
+
+    private void drawRoutes(Graphics graphics) {
+        int cityA = (int) Double.parseDouble(routes.get(0).name);
+        int tempCity = cityA;
+        int cityB = 0;
+        for (int i = 1; i < routes.size(); i++) {
+            graphics.setColor(i == 1? Color.red: Color.green);
+            cityB = (int) Double.parseDouble(routes.get(i).name);
+            drawLine(graphics, cityA,cityB);
+            cityA = cityB;
+        }
+        graphics.setColor(Color.red);
+        drawLine(graphics, tempCity, cityA);
+    }
+
+    private void drawLine(Graphics g, int cityA, int cityB) {
+        double[] a = cityCoordinates.get(cityA - 1);
+        double[] b = cityCoordinates.get(cityB - 1);
+        g.drawLine((int) a[1], (int) a[2], (int) b[1], (int) b[2]);
     }
 
     private void scaleCoordinates() {
@@ -29,13 +58,10 @@ public class WhiteBoard extends JPanel {
         final double scaledPanelWidth = this.getWidth() - this.getWidth() * 0.006;
         findRange();
         cityCoordinates.forEach(n -> {
-            n[1] = ((n[1]  - (minXCoordinate-BUFFER_SPACE))/(maxXCoordinate + BUFFER_SPACE - minXCoordinate)) * scaledPanelWidth;
-            n[2] = ((n[2]  - (minYCoordinate-BUFFER_SPACE))/(maxYCoordinate + BUFFER_SPACE - minYCoordinate)) * scaledPanelHeight;
+            n[1] = ((n[1] - (minXCoordinate - BUFFER_SPACE)) / (maxXCoordinate + BUFFER_SPACE - minXCoordinate)) * scaledPanelWidth;
+            n[2] = ((n[2] - (minYCoordinate - BUFFER_SPACE)) / (maxYCoordinate + BUFFER_SPACE - minYCoordinate)) * scaledPanelHeight;
         });
     }
-
-
-
 
     private void findRange() {
         maxXCoordinate = minXCoordinate = cityCoordinates.get(0)[1];
@@ -51,4 +77,5 @@ public class WhiteBoard extends JPanel {
                 maxYCoordinate = point[2];
         }
     }
+
 }
