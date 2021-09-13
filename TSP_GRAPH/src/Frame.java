@@ -97,7 +97,6 @@ public class Frame extends JFrame implements ActionListener {
                 if (!cityCoordinates.isEmpty()) {
                     whiteBoard.cityCoordinates = cityCoordinates;
                     whiteBoard.repaint();
-                    System.out.println("file parsed: " + cityCoordinates.size());
                 }
             }
             button.setEnabled(true);
