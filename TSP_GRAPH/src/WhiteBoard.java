@@ -2,28 +2,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class provides the drawing area for the cities and routes.
+ * It extends JPanel to provide painting features.
+ * @author : Ishanu Dhar (ID: 1222326326, idhar@asu.edu)
+ * @author : Pritam De (ID: 1219491988, pritamde@asu.edu)
+ */
 public class WhiteBoard extends JPanel {
 
     public List<double[]> cityCoordinates;
     public List<City> routes;
     private double maxXCoordinate, maxYCoordinate, minXCoordinate, minYCoordinate;
-    private final int BUFFER_SPACE = 10;
+    private static final int BUFFER_SPACE = 10;
 
-    WhiteBoard() {
-        super();
-    }
-
+    /**
+     * This is a painting method where cities and routes are drawn.
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g) {
-       /* Graphics2D g2d = (Graphics2D) g;
-        int w2 = getWidth() / 2;
-        int h2 = getHeight() / 2;
-        g2d.rotate(-Math.PI / 2, w2, h2);
-*/
         super.paintComponent(g);
         if (cityCoordinates != null) {
             scaleCoordinates();
-
             cityCoordinates.forEach(n -> {
                 g.drawOval((int) n[1],(int) n[2], 3, 3);
             });
@@ -58,8 +58,8 @@ public class WhiteBoard extends JPanel {
         final double scaledPanelWidth = this.getWidth() - this.getWidth() * 0.006;
         findRange();
         cityCoordinates.forEach(n -> {
-            n[1] = ((n[1] - (minXCoordinate - BUFFER_SPACE)) / (maxXCoordinate + BUFFER_SPACE - minXCoordinate)) * scaledPanelWidth;
-            n[2] = ((n[2] - (minYCoordinate - BUFFER_SPACE)) / (maxYCoordinate + BUFFER_SPACE - minYCoordinate)) * scaledPanelHeight;
+            n[1] = ((n[1]-(minXCoordinate-BUFFER_SPACE))/(maxXCoordinate+BUFFER_SPACE-minXCoordinate))*scaledPanelWidth;
+            n[2] = ((n[2]-(minYCoordinate-BUFFER_SPACE))/(maxYCoordinate+BUFFER_SPACE-minYCoordinate))*scaledPanelHeight;
         });
     }
 

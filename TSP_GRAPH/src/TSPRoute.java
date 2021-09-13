@@ -1,17 +1,18 @@
-import java.util.ArrayList;
+
 import java.util.List;
 
+/**
+ * This class holds the routing information between cities.
+ * @author : Ishanu Dhar (ID: 1222326326, idhar@asu.edu)
+ * @author : Pritam De (ID: 1219491988, pritamde@asu.edu)
+ */
 public class TSPRoute {
-    private List<City> cities = new ArrayList<>();
+    public List<City> cities;
 
-    public TSPRoute(List<City> cities) {
-        this.cities.addAll(cities);
-    }
-    public TSPRoute(TSPRoute route) {
-        this.cities.addAll(route.cities);
-    }
-    public List<City> getCities() {return cities;}
-
+    /**
+     * This methods calculates the total path distance.
+     * @return the total distance among the cities.
+     */
     public double getTotalDistance() {
         int citiesSize = this.cities.size();
         return (int) (this.cities.stream().mapToDouble(x->{
