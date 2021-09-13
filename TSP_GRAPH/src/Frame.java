@@ -6,11 +6,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class creates the panel to hold the buttons as well as the drawing area.
+ * It extends JFrame and sets the layout of its contents.
+ * It also implements ActionListener to handle control events.
+ * @author : Ishanu Dhar (ID: 1222326326, idhar@asu.edu)
+ * @author : Pritam De (ID: 1219491988, pritamde@asu.edu)
+ */
 public class Frame extends JFrame implements ActionListener {
     WhiteBoard whiteBoard;
     JButton openFileButton;
     JButton drawGraphButton;
 
+    /**
+     * This constructor configures the frame with panels and controls.
+     * It also sets the size of the frame and the location of the frame and sets the frame behavior.
+     * @param name: This parameter sets the title of the frame.
+     */
     Frame(String name) {
         super(name);
         setLocationRelativeTo(null);
@@ -28,6 +40,10 @@ public class Frame extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * The button area and the buttons are configured here. A Panel is created to hold the button controls
+     * and attaches event listens to the button
+     */
     public void configureButtonArea() {
         JPanel buttonArea = new JPanel();
         buttonArea.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -43,6 +59,10 @@ public class Frame extends JFrame implements ActionListener {
         buttonArea.add(this.drawGraphButton);
     }
 
+    /**
+     * This method handles the button actions.
+     * @param e: This parameter indicates the event triggered by the control
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (((JButton) e.getSource()).getText().equals("Open File")) {
@@ -51,6 +71,8 @@ public class Frame extends JFrame implements ActionListener {
             drawGraph();
         }
     }
+
+
 
     private void drawGraph() {
         TSPAlgorithm tspAlgorithm = new TSPAlgorithm(whiteBoard.cityCoordinates);

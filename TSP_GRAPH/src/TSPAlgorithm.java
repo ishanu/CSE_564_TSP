@@ -1,12 +1,22 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class runs the travelling sales person algorithm to find the optimal route between the points.
+ * It uses the Simulated Annealing Algorithm.
+ * @author : Ishanu Dhar (ID: 1222326326, idhar@asu.edu)
+ * @author : Pritam De (ID: 1219491988, pritamde@asu.edu)
+ */
 public class TSPAlgorithm {
     public static final double COOLING_RATE=0.005;
     public static final double TEMP_MIN = 0.99;
     public static final double COOLING_PERIOD = 30;
     public TSPRoute tspRoute;
 
+    /**
+     * This constructor initiates the points for which the algorithm needs to run
+     * @param cities: the list of cities
+     */
     public TSPAlgorithm(List<double[]> cities) {
         List<City> cityList = new ArrayList<>();
         cities.forEach(n->{
@@ -16,6 +26,11 @@ public class TSPAlgorithm {
         tspRoute.cities = new ArrayList<>();
         tspRoute.cities.addAll(cityList);
     }
+
+    /**
+     * This method calculates the optimal route using the SA algorithm and return the list of cities
+     * @return return the list of cities in th order of routing
+     */
     public List<City> findRoute() {
         TSPRoute shortestRoute = createTspRoute(tspRoute);
         TSPRoute adjacentRoute;
