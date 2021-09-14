@@ -3,7 +3,7 @@
  * @author : Ishanu Dhar (ID: 1222326326, idhar@asu.edu)
  * @author : Pritam De (ID: 1219491988, pritamde@asu.edu)
  */
-public class Main {
+public class MainClass {
 
     static Frame boardFrame;
     /**
