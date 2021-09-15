@@ -5,12 +5,12 @@
  */
 public class MainClass {
 
-    static Frame boardFrame;
+
     /**
      * This is the main method.
      * @param args
      */
     public static void main(String args[]) {
-        boardFrame = new Frame("TSP Graph");
+        Frame boardFrame = new Frame("TSP Graph");
     }
 }

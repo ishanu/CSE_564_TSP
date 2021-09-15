@@ -17,7 +17,7 @@ public class Frame extends JFrame implements ActionListener {
     WhiteBoard whiteBoard;
     JButton openFileButton;
     JButton drawGraphButton;
-    FileExtractor fileExtractor;
+
 
     /**
      * This constructor configures the frame with panels and controls.
@@ -85,6 +85,7 @@ public class Frame extends JFrame implements ActionListener {
     }
 
     private void drawCities(JButton button) {
+        FileExtractor fileExtractor;
         button.setEnabled(false);
         button.setText("Loading ..");
         whiteBoard.cityCoordinates = null;
